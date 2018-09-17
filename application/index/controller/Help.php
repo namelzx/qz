@@ -49,7 +49,11 @@ class Help extends Base
     public function getByList()
     {
         $data = input('param.');
+
         $res = Theraise::order('create_time desc')->paginate($data['limit'], false, ['query' => $data['page'],]);
+        if($res){
+
+        }
         return json($this->groupVisit($res));
     }
 
@@ -57,15 +61,15 @@ class Help extends Base
     function groupVisit($visit)
     {
         $visit_list = [];
-        foreach ($visit as $v=>$item) {
-            $visit_list[$v]= $visit[$v];
-            if($visit[$v]['price']>$visit[$v]['get_price']){
+        foreach ($visit as $v => $item) {
+            $visit_list[$v] = $visit[$v];
+            if ($visit[$v]['price'] > $visit[$v]['get_price']) {
 
-            $visit_list[$v]['sum']=round( ($visit[$v]['get_price']/intval($visit[$v]['price']))*100,2);
+                $visit_list[$v]['sum'] = round(($visit[$v]['get_price'] / intval($visit[$v]['price'])) * 100, 2);
 
 
-            }else{
-                $visit_list[$v]['sum']=100;
+            } else {
+                $visit_list[$v]['sum'] = 100;
             }
         }
         return $visit_list;
@@ -87,6 +91,7 @@ class Help extends Base
             ->setInc('thenumber', 1);
         return json($res);
     }
+
     /*
      * 最近捐款人列表
      */
