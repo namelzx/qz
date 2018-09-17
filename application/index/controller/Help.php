@@ -51,9 +51,7 @@ class Help extends Base
         $data = input('param.');
 
         $res = Theraise::order('create_time desc')->paginate($data['limit'], false, ['query' => $data['page'],]);
-        if($res){
-
-        }
+     
         return json($this->groupVisit($res));
     }
 
