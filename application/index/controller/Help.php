@@ -49,10 +49,9 @@ class Help extends Base
     public function getByList()
     {
         $data = input('param.');
-
         $res = Theraise::order('create_time desc')->paginate($data['limit'], false, ['query' => $data['page'],]);
-     
-        return json($this->groupVisit($res));
+
+        return json(['total'=>$res->total(),'data'=> $this->groupVisit($res)]);
     }
 
     /* 数据重装 */
@@ -62,10 +61,7 @@ class Help extends Base
         foreach ($visit as $v => $item) {
             $visit_list[$v] = $visit[$v];
             if ($visit[$v]['price'] > $visit[$v]['get_price']) {
-
                 $visit_list[$v]['sum'] = round(($visit[$v]['get_price'] / intval($visit[$v]['price'])) * 100, 2);
-
-
             } else {
                 $visit_list[$v]['sum'] = 100;
             }

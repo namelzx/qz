@@ -22,8 +22,7 @@ Route::group('api/index/', function () {
     Route::post('/help/getDatabyfind', 'index/help/getDatabyfind');
     Route::post('/help/PostByrecord', 'index/help/PostByrecord');
     Route::post('/help/getrecordBylist', 'index/help/getrecordBylist');
-
-
+    Route::post('/user/getByCecord', 'index/user/getByCecord');
 });
 return [
 

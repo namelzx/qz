@@ -10,9 +10,12 @@ namespace app\index\controller;
 
 
 use think\Controller;
+use OSS\OssClient;
+use OSS\Core\OssException;
 
 class Base extends Controller
 {
+
     public function upload()
     {
         // 获取表单上传文件 例如上传了001.jpg
@@ -20,7 +23,7 @@ class Base extends Controller
         // 移动到框架应用根目录/uploads/ 目录下
         $info = $file->move('./uploads');
         if ($info) {
-            $path = $info->getSaveName();
+             $path = $info->getSaveName();
             return $path;
         } else {
             // 上传失败获取错误信息
