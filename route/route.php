@@ -14,11 +14,13 @@ Route::get('think', function () {
 });
 
 Route::get('hello/:name', 'index/hello');
+Route::post('api/index/pay', 'index/help/Upay');
 
 Route::group('api/index/', function () {
     Route::post('/usercheck', 'index/index/checkUserbyopenid');
     Route::post('/help/data', 'index/help/PostbyData');
     Route::post('/help/getByList', 'index/help/getByList');
+    Route::post('/help/getUserByList', 'index/help/getUserByList');
     Route::post('/help/getDatabyfind', 'index/help/getDatabyfind');
     Route::post('/help/PostByrecord', 'index/help/PostByrecord');
     Route::post('/help/getrecordBylist', 'index/help/getrecordBylist');

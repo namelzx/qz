@@ -1,5 +1,7 @@
 {
     "require": {
-        "aliyuncs/oss-sdk-php": "^2.3"
+        "aliyuncs/oss-sdk-php": "^2.3",
+        "overtrue/wechat": "~4.0",
+        "naixiaoxin/think-wechat": "^1.2"
     }
 }
