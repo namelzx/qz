@@ -15,6 +15,14 @@ use OSS\Core\OssException;
 use OSS\OssClient;
 use think\Controller;
 
+
+
+
+header('Access-Control-Allow-Origin:*');
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, authKey, sessionId, Access-Token, X-Token");
+
 class Base extends Controller
 {
 
@@ -22,6 +30,7 @@ class Base extends Controller
     {
         // 获取表单上传文件 例如上传了001.jpg
         $file = request()->file('file');
+
         // 移动到框架应用根目录/uploads/ 目录下
         $info = $file->move('./uploads');
         if ($info) {
@@ -29,6 +38,7 @@ class Base extends Controller
             $filepath = 'https://qz.10huisp.com/uploads/' . $info->getSaveName();
             $fileName = 'uploads/' . $info->getSaveName();
             $this->uploadFile('gtjj', $fileName, $info->getPathname());
+
             return $path;
         } else {
             // 上传失败获取错误信息
@@ -36,7 +46,6 @@ class Base extends Controller
         }
         return json($file);
     }
-
     /**
      * 实例化阿里云OSS
      * @return object 实例化得到的对象
@@ -99,18 +108,7 @@ class Base extends Controller
         return $info;
     }
 
-    public function apay()
-    {
-//        $data=input('param.');
-//        $data['out_trade_no']=time();
-//        $data['body']="测试";
-//        $data['openid']="oT2Ym0Q3UwykRTaCwlqCzLyW1Sco";
-//        $data['total_fee']=100;
-//       $pay=WxAppPay::prePay($data);
-//       $getPaydata=WxAppPay::getPayData($pay['prepay_id']);
-//
-//       return json($getPaydata);
-    }
+
 //单篇订单支付
     public function pay($data)
     {

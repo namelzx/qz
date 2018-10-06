@@ -9,8 +9,20 @@
 namespace app\common\model;
 
 
+use think\model\concern\SoftDelete;
+
 class Theraise extends BaseModel
 {
+    use  SoftDelete;
+    protected $deleteTime = 'delete_time';
+    protected $readonly = ['id','update_time'];
+    protected $field = true;
+
+    public function info()
+    {
+        return $this->hasOne('user', 'id', 'user_id');
+    }
+
     public function items()
     {
         return $this->hasMany('images');
@@ -26,6 +38,53 @@ class Theraise extends BaseModel
     {
         $data = self::with('items')->where('id', $id)->find();
         return $data;
+    }
+
+    /*
+     * 获取项目列表
+     */
+    public static function GetByList($data)
+    {
+        $res = self::order('create_time desc')->
+        paginate($data['limit'], false, ['query' => $data['page'],]);
+        return $res;
+    }
+
+    /*
+     * 修改项目状态
+     */
+    public static function EditStatus($data)
+    {
+        $res = self::where('id', $data['id'])->data(['status' => $data['status']])->update();
+        return $res;
+    }
+
+    public static function SoftDelete($id)
+    {
+        $res = self::destroy($id);
+        return $res;
+    }
+
+    public static function fetchProject($id)
+    {
+        $res = self::with(['info', 'items'])->find($id);
+        return $res;
+    }
+
+    public static function PostByUpdate($data)
+    {
+        $res = self::where('id', $data['id'])->strict(true)->data($data)->update();
+        return $res;
+
+    }
+
+    /*
+     * 获取轮播图
+     */
+    public static function GetByBanner()
+    {
+        $res = self::where('bannerpush', 1)->paginate(100);
+        return $res;
     }
 
 }

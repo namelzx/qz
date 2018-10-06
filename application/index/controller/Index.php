@@ -2,17 +2,18 @@
 
 namespace app\index\controller;
 
+use app\common\model\Theraise;
 use app\common\model\User;
-use think\Controller;
 
 class Index extends Base
 {
     public function index()
     {
 
-     return view();
+        return view();
 
     }
+
     /*
      * 检查用户信息是否存在
      */
@@ -26,5 +27,14 @@ class Index extends Base
         } else {
             return json(['token' => 'user', 'data' => $data]);
         }
+    }
+
+    /*
+     * 获取首页轮播图
+     */
+    public function Banner()
+    {
+        $res = Theraise::GetByBanner();
+        return json($res);
     }
 }

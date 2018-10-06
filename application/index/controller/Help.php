@@ -24,15 +24,20 @@ class Help extends Base
         $validate = new ReleasePostValidate();
         $data = input('param.');
 
+
+        $real = \app\common\model\User::where('id', $data['temp']['user_id'])->find();
+        if ($real['status'] != 1) {
+            return json(['status' => 202, 'msg' => '请前往个人中心进行实名认证']);
+        }
         if ($validate->check($data['temp'])) {
 
 
             $data['temp']['price'] = intval($data['temp']['price']);
-            $data['temp']['logo'] = str_replace("\"", "", $data['images'][0]['data']);//获取图片上传的第一张做logo图
+            $data['temp']['logo'] = str_replace("\"", "", $data['images'][0]);//获取图片上传的第一张做logo图
             $res = Theraise::PostByData($data['temp']);
             $images = [];
             foreach ($data['images'] as $key => $item) {
-                $images[$key]['images_url'] = str_replace("\"", "", $data['images'][$key]['data']);
+                $images[$key]['images_url'] = str_replace("\"", "", $data['images'][$key]);
                 $images[$key]['theraise_id'] = $res;
             }
             $ImagesModel = new Images();
@@ -58,10 +63,9 @@ class Help extends Base
     public function getByList()
     {
         $data = input('param.');
-        $res = Theraise::order('create_time desc')->paginate($data['limit'], false, ['query' => $data['page'],]);
+        $res = Theraise::order('create_time desc')->where('status', $data['status'])->paginate($data['limit'], false, ['query' => $data['page'],]);
         return json(['total' => $res->total(), 'data' => $this->groupVisit($res)]);
     }
-
     /*
     * 获取用户众筹列表
     */
@@ -93,22 +97,28 @@ class Help extends Base
         $res = $this->pay($data);
         return json($res);
     }
-
     /*
      * 捐款
      */
     public function PostByrecord()
     {
         $data = input('param.');
-//       $res= $this->pay($data);
         $res = Record::PostByData($data);
-        // score 字段加 5
         db('theraise')
             ->where('id', $data['theraise_id'])
             ->setInc('get_price', intval($data['price']));
         db('theraise')
             ->where('id', $data['theraise_id'])
             ->setInc('thenumber', 1);
+        $status = Theraise::get($data['theraise_id']);
+        $price = $status['price'];
+        $get_price = $status['get_price'];
+        if (intval($price) <= $get_price) {
+            db('theraise')
+                ->where('id', $data['theraise_id'])
+                ->data('status', 2)
+                ->update();
+        }
         return json($res);
     }
 

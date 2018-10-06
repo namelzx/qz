@@ -11,7 +11,5 @@ namespace app\common\model;
 
 class Images extends BaseModel
 {
-    public function test(){
 
-    }
 }
