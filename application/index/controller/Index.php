@@ -2,8 +2,10 @@
 
 namespace app\index\controller;
 
+use app\common\model\Complete;
 use app\common\model\Theraise;
 use app\common\model\User;
+use think\Db;
 
 class Index extends Base
 {
@@ -35,6 +37,26 @@ class Index extends Base
     public function Banner()
     {
         $res = Theraise::GetByBanner();
+        return json($res);
+    }
+
+    /*
+     * 获取最新公示
+     */
+    public function GetCompleteByList()
+    {
+        $data = input('param.');
+        $res = Complete::GetByList($data);
+        return json($res);
+    }
+
+    /*
+     * 获取公示详情
+     */
+    public function GetByFind()
+    {
+        $data = input('param.');
+        $res = Complete::GetByFind($data['id']);
         return json($res);
     }
 }

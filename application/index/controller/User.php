@@ -22,7 +22,6 @@ class User extends Base
         $res = Record::getRecordBylist($data);
         return json($res);
     }
-
     /*
      * 用户审核提交
      */
@@ -33,9 +32,9 @@ class User extends Base
 
         if ($validate->check($data)) {
             $Model = new \app\common\model\User();
-            $data['status']=1;
+            $data['status'] = 1;
             $Model->allowField(true)->save($data, ['id' => $data['user_id']]);
-            return json(['status' => 200, 'msg' => '认证成功']);
+            return json(['status' => 200, 1,'msg' => '认证成功']);
         } else {
             return json(['status' => 201, 'msg' => $validate->getError()]);
         }

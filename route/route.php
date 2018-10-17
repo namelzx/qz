@@ -27,8 +27,12 @@ Route::group('api/index/', function () {
     Route::post('/user/getByCecord', 'index/user/getByCecord');
     Route::post('/user/PostByReal', 'index/user/PostByReal');
     Route::get('/user/GetByUserInfo', 'index/user/GetByUserInfo');
-
     Route::get('/index/Banner', 'index/index/Banner');
+    Route::get('/index/GetCompleteByList', 'index/index/GetCompleteByList');
+    Route::get('/index/GetByFind', 'index/index/GetByFind');
+
+
+
 });
 Route::group('api/admin/', function () {
     Route::post('/login', 'admin/login/login');
@@ -36,8 +40,20 @@ Route::group('api/admin/', function () {
     Route::get('/Projec/SoftDelete', 'admin/Project/SoftDelete');
     Route::post('/Projec/EditStatus', 'admin/Project/EditStatus');
     Route::get('/Projec/FetchProject', 'admin/Project/FetchProject');
+    Route::get('/Projec/FetchComplete', 'admin/Project/FetchComplete');
+    Route::post('/Projec/CompleteByPost', 'admin/Project/CompleteByPost');
     Route::post('/Projec/PostByUpdate', 'admin/Project/PostByUpdate');
     Route::post('/Projec/upload', 'admin/Project/upload');
+    Route::get('/User/GetByList', 'admin/User/GetByList');
+    Route::post('/User/PostByUpdate', 'admin/User/PostByUpdate');
+    Route::post('/User/SoftDelete', 'admin/User/SoftDelete');
+    Route::get('/Admin/GetByList', 'admin/Admin/GetByList');
+    Route::post('/Admin/PostByUpdate', 'admin/Admin/PostByUpdate');
+    Route::get('/Admin/SoftDelete', 'admin/Admin/SoftDelete');
+    Route::Post('/Financial/GetRecordByAll', 'admin/Financial/GetRecordByAll');
+    Route::get('/Projec/GetByRecord', 'admin/Project/GetByRecord');
+
+
 });
 return [
 

@@ -9,7 +9,9 @@
 namespace app\admin\controller;
 
 
+use app\common\model\Complete;
 use app\common\model\Images;
+use app\common\model\Record;
 use app\common\model\Theraise;
 
 class Project extends Base
@@ -54,6 +56,41 @@ class Project extends Base
     }
 
     /*
+     * 求助公示
+     */
+    public function FetchComplete($id)
+    {
+        $res = Theraise::CompleteByFind($id);
+        return json(msg(200, $res, '获取成功'));
+
+    }
+
+    /*
+     * 提交公示
+     */
+    public function CompleteByPost()
+    {
+        $data = input('param.');
+
+        $Complete = Complete::where('theraise_id', $data['id'])->count();
+        $temp = [
+            'theraise_id' => $data['id'],
+            'title' => $data['title'],
+            'content' => $data['content']
+        ];
+        if ($Complete < 1) {
+            $res = Complete::PostByAdd($temp);
+            Theraise::where('id', $data['id'])->data(['complete' => 1])->update();
+            return json(msg(200, $res, '添加成功'));
+        } else {
+            Theraise::where('id', $data['id'])->data(['complete' => 1])->update();
+            $res = Complete::PostByUpdate($temp);
+            return json(msg(200, 22, '更新成功'));
+        }
+        return json($Complete);
+    }
+
+    /*
      * 更新项目数据
      */
     public function PostByUpdate()
@@ -87,20 +124,29 @@ class Project extends Base
             }
             $res = db('theraise')->where('id', $data['id'])->data($platforms + $p)->update();
             return json($res);
-        }else{
+        } else {
             $data['price'] = intval($data['price']);
-
+            $data['type'] = 2;
             $res = Theraise::PostByData($data);
             $images = [];
+
             foreach ($data['images'] as $key => $item) {
                 $images[$key]['images_url'] = str_replace("\"", "", $data['images'][$key]['url']);
                 $images[$key]['theraise_id'] = $res;
             }
+
             $ImagesModel = new Images();
             $ImagesModel->saveAll($images);
             return json(['status' => 200, 'msg' => '发布成功']);
 
         }
+    }
+
+    public function GetByRecord()
+    {
+        $data = input('param.');
+        $res = Record::GetByRecord($data);
+        return json($res);
     }
 
 }

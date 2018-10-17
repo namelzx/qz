@@ -27,8 +27,10 @@ class Pay extends Base
                 'key_path'           => getcwd().'/cert/apiclient_key.pem',
                 'notify_url'         => '',     // 你也可以在下单时单独设置来想覆盖它
             ];
+            $post=input('param.');
             $app=Factory::payment($config);
-            $total_money = 1;
+            $total_money = intval($post['price']);
+
             $attributes = [
                 'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
                 'body'             => "1213",

@@ -123,8 +123,8 @@ class Base extends Controller
             ];
             $app = Factory::payment($config);
             $openid =$data['openid'];
-//            $total_money = intval($data['price']);
-        $total_money = 0.1;
+            $total_money = intval($data['price']);
+//        $total_money = 0.1;
             $attributes = [
                 'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
                 'body'             => '众筹捐款'.'-'.$data['title'],

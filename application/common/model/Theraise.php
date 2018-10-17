@@ -15,12 +15,16 @@ class Theraise extends BaseModel
 {
     use  SoftDelete;
     protected $deleteTime = 'delete_time';
-    protected $readonly = ['id','update_time'];
+    protected $readonly = ['id', 'update_time'];
     protected $field = true;
 
     public function info()
     {
         return $this->hasOne('user', 'id', 'user_id');
+    }
+    public function complete()
+    {
+        return $this->hasOne('complete', 'theraise_id', 'id');
     }
 
     public function items()
@@ -45,8 +49,13 @@ class Theraise extends BaseModel
      */
     public static function GetByList($data)
     {
-        $res = self::order('create_time desc')->
-        paginate($data['limit'], false, ['query' => $data['page'],]);
+        $res = self::order('create_time desc');
+        if ($data['status'] != 2) {
+            $res = $res->where('status', 1)->whereOr('status', 0);
+        } else {
+            $res = $res->where('status', 2);
+        }
+        $res = $res->paginate($data['limit'], false, ['query' => $data['page'],]);
         return $res;
     }
 
@@ -68,6 +77,12 @@ class Theraise extends BaseModel
     public static function fetchProject($id)
     {
         $res = self::with(['info', 'items'])->find($id);
+        return $res;
+    }
+
+    public static function CompleteByFind($id)
+    {
+        $res = self::with('complete')->find($id);
         return $res;
     }
 
