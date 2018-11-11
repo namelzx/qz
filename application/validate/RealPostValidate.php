@@ -16,7 +16,7 @@ class RealPostValidate extends Validate
 
     protected $rule = [
         'user_id' => 'require',
-        'cardIDurl' => 'require',
+
         'realname' => 'require',
         'cardID' => 'require|idCard',
 //        'phone|手机号码' => 'require|mobile,'
@@ -24,7 +24,6 @@ class RealPostValidate extends Validate
     ];
     protected $message = [
         'user_id.require' => '缺少用户id',
-        'cardIDurl.require' => '请上传身份证',
         'realname.require' => '请填写真实姓名',
         'cardID.idCard' => '请填写正确的身份证号码',
         'cardID.require' => '身份证号码不能为空',

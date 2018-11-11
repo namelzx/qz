@@ -34,5 +34,4 @@ class Financial extends Base
         $res = $res->paginate($data['limit'], false, ['query' => $data['page'],]);
         return json($res);
     }
-
 }

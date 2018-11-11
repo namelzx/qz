@@ -32,5 +32,13 @@ class User extends Base
         $res = UserModel::SoftDelete($data['id']);
         return json($res);
     }
+    public function SetUserByStatus()
+    {
+        $data = input('param.');
+        $Model = new \app\common\model\User();
+        $Model->allowField(true)->where('id',$data['id'])->data($data)->update();
+        $userinfo = $Model->where('id', $data['id'])->find();
+        return json(['status' => 200, 'data' => $userinfo, 'msg' => '更新成功']);
+    }
 
 }

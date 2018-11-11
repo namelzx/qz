@@ -13,8 +13,7 @@ use think\model\concern\SoftDelete;
 
 class User extends BaseModel
 {
-    use SoftDelete;
-    protected $deleteTime = 'delete_time';
+//    use SoftDelete;
 
     public static function GetByList($data)
     {
@@ -48,6 +47,5 @@ class User extends BaseModel
     {
         $res = self::destroy($id);
         return $res;
-
     }
 }

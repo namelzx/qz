@@ -22,9 +22,15 @@ class Theraise extends BaseModel
     {
         return $this->hasOne('user', 'id', 'user_id');
     }
+
     public function complete()
     {
         return $this->hasOne('complete', 'theraise_id', 'id');
+    }
+
+    public function record()
+    {
+        return $this->hasMany('Record', 'theraise_id');
     }
 
     public function items()
@@ -40,7 +46,7 @@ class Theraise extends BaseModel
 
     public static function GetByfind($id)
     {
-        $data = self::with('items')->where('id', $id)->find();
+        $data = self::with(['items', 'record'])->where('id', $id)->find();
         return $data;
     }
 
@@ -98,7 +104,7 @@ class Theraise extends BaseModel
      */
     public static function GetByBanner()
     {
-        $res = self::where('bannerpush', 1)->paginate(100);
+        $res = self::where('bannerpush', 1)->order('create_time asc')->paginate(100);
         return $res;
     }
 

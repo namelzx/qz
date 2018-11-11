@@ -16,23 +16,28 @@ Route::get('think', function () {
 Route::get('hello/:name', 'index/hello');
 Route::post('api/index/pay', 'index/help/Upay');
 
+Route::get('api/index/GetOpenid', 'index/index/getopenid');
+
 Route::group('api/index/', function () {
     Route::post('/usercheck', 'index/index/checkUserbyopenid');
     Route::post('/help/data', 'index/help/PostbyData');
+    //所有项目列表
     Route::get('/help/getByList', 'index/help/getByList');
     Route::post('/help/getUserByList', 'index/help/getUserByList');
-    Route::post('/help/getDatabyfind', 'index/help/getDatabyfind');
+    Route::get('/help/getDatabyfind', 'index/help/getDatabyfind');
     Route::post('/help/PostByrecord', 'index/help/PostByrecord');
-    Route::post('/help/getrecordBylist', 'index/help/getrecordBylist');
-    Route::post('/user/getByCecord', 'index/user/getByCecord');
+    Route::get('/help/getrecordBylist', 'index/help/getrecordBylist');
+    //获取用户捐款信息
+    Route::get('/user/getByCecord', 'index/User/getByCecord');
     Route::post('/user/PostByReal', 'index/user/PostByReal');
     Route::get('/user/GetByUserInfo', 'index/user/GetByUserInfo');
+    Route::post('/user/PostByCard', 'index/user/PostByCard');
     Route::get('/index/Banner', 'index/index/Banner');
     Route::get('/index/GetCompleteByList', 'index/index/GetCompleteByList');
+    Route::get('/index/GetCompleteByfind', 'index/index/GetCompleteByfind');
     Route::get('/index/GetByFind', 'index/index/GetByFind');
-
-
-
+    //获取使用教程信息
+    Route::get('/index/GetBytutorial', 'index/index/GetBytutorial');
 });
 Route::group('api/admin/', function () {
     Route::post('/login', 'admin/login/login');
@@ -46,6 +51,7 @@ Route::group('api/admin/', function () {
     Route::post('/Projec/upload', 'admin/Project/upload');
     Route::get('/User/GetByList', 'admin/User/GetByList');
     Route::post('/User/PostByUpdate', 'admin/User/PostByUpdate');
+    Route::post('/User/SetUserByStatus', 'admin/User/SetUserByStatus');
     Route::post('/User/SoftDelete', 'admin/User/SoftDelete');
     Route::get('/Admin/GetByList', 'admin/Admin/GetByList');
     Route::post('/Admin/PostByUpdate', 'admin/Admin/PostByUpdate');
@@ -53,6 +59,12 @@ Route::group('api/admin/', function () {
     Route::Post('/Financial/GetRecordByAll', 'admin/Financial/GetRecordByAll');
     Route::get('/Projec/GetByRecord', 'admin/Project/GetByRecord');
 
+
+    //文章模块
+    Route::get('/Article/GetArticleByList', 'admin/Article/GetArticleByList');
+    Route::Post('/Article/createArticle', 'admin/Article/createArticle');
+    Route::get('/Article/detailArticle', 'admin/Article/detail');
+    Route::get('/Article/deleteArticle', 'admin/Article/delete');
 
 });
 return [

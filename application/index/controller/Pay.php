@@ -30,7 +30,6 @@ class Pay extends Base
             $post=input('param.');
             $app=Factory::payment($config);
             $total_money = intval($post['price']);
-
             $attributes = [
                 'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
                 'body'             => "1213",

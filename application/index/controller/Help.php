@@ -23,18 +23,23 @@ class Help extends Base
     {
         $validate = new ReleasePostValidate();
         $data = input('param.');
-
-
-        $real = \app\common\model\User::where('id', $data['temp']['user_id'])->find();
+        $real = \app\common\model\User::where('id', $data['user_id'])->find();
         if ($real['status'] != 1) {
             return json(['status' => 202, 'msg' => '请前往个人中心进行实名认证']);
         }
-        if ($validate->check($data['temp'])) {
+        if(empty($data['images'])){
+            return json(['status' => 202, 'msg' => '图片不可为空']);
+        }
+        if ($validate->check($data)) {
 
 
-            $data['temp']['price'] = intval($data['temp']['price']);
-            $data['temp']['logo'] = str_replace("\"", "", $data['images'][0]);//获取图片上传的第一张做logo图
-            $res = Theraise::PostByData($data['temp']);
+            $datat['price'] = intval($data['price']);
+            $datat['logo'] = str_replace("\"", "", $data['images'][0]);//获取图片上传的第一张做logo图
+            $datat['helpName'] =$data['helpName'];
+            $datat['janeName']=$data['janeName'];
+            $datat['tarName']=$data['tarName'];
+            $datat['user_id']=$data['user_id'];
+            $res = Theraise::PostByData($datat);
             $images = [];
             foreach ($data['images'] as $key => $item) {
                 $images[$key]['images_url'] = str_replace("\"", "", $data['images'][$key]);
@@ -66,6 +71,7 @@ class Help extends Base
         $res = Theraise::order('create_time desc')->where('status', $data['status'])->paginate($data['limit'], false, ['query' => $data['page'],]);
         return json(['total' => $res->total(), 'data' => $this->groupVisit($res)]);
     }
+
     /*
     * 获取用户众筹列表
     */
@@ -97,6 +103,7 @@ class Help extends Base
         $res = $this->pay($data);
         return json($res);
     }
+
     /*
      * 捐款
      */

@@ -9,10 +9,9 @@
 namespace app\admin\controller;
 
 
-use think\Controller;
-
 use OSS\Core\OssException;
 use OSS\OssClient;
+use think\Controller;
 
 
 
@@ -45,6 +44,7 @@ class Base extends Controller
         }
         return json($file);
     }
+
     /**
      * 实例化阿里云OSS
      * @return object 实例化得到的对象

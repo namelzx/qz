@@ -10,12 +10,10 @@ namespace app\index\controller;
 
 
 use EasyWeChat\Factory;
-use Naixiaoxin\ThinkWechat\Facade;
 use OSS\Core\OssException;
 use OSS\OssClient;
+
 use think\Controller;
-
-
 
 
 header('Access-Control-Allow-Origin:*');
@@ -25,12 +23,10 @@ header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Ac
 
 class Base extends Controller
 {
-
     public function upload()
     {
         // 获取表单上传文件 例如上传了001.jpg
         $file = request()->file('file');
-
         // 移动到框架应用根目录/uploads/ 目录下
         $info = $file->move('./uploads');
         if ($info) {
@@ -38,7 +34,6 @@ class Base extends Controller
             $filepath = 'https://qz.10huisp.com/uploads/' . $info->getSaveName();
             $fileName = 'uploads/' . $info->getSaveName();
             $this->uploadFile('gtjj', $fileName, $info->getPathname());
-
             return $path;
         } else {
             // 上传失败获取错误信息
@@ -46,6 +41,7 @@ class Base extends Controller
         }
         return json($file);
     }
+
     /**
      * 实例化阿里云OSS
      * @return object 实例化得到的对象
@@ -113,25 +109,35 @@ class Base extends Controller
     public function pay($data)
     {
 
-            $config = [
-                'app_id' => 'wxf193369c4886d5fc',
-                'mch_id' => '1498556672',
-                'key'    => 'shanshuijv45082119900303daliuren',   // API!操作
-                'cert_path'          => getcwd().'/cert/apiclient_cert.pem', // XXX: 绝对路径！！！！
-                'key_path'           => getcwd().'/cert/apiclient_key.pem',
-                'notify_url'         => '',     // 你也可以在下单时单独设置来想覆盖它
-            ];
+//            $config = [
+//                'app_id' => 'wxf193369c4886d5fc',
+//                'mch_id' => '1498556672',
+//                'key'    => 'shanshuijv45082119900303daliuren',   // API!操作
+//                'cert_path'          => getcwd().'/cert/apiclient_cert.pem', // XXX: 绝对路径！！！！
+//                'key_path'           => getcwd().'/cert/apiclient_key.pem',
+//                'notify_url'         => '',     // 你也可以在下单时单独设置来想覆盖它
+//            ];
+        $config = [
+            'app_id' => 'wx14dea0693ebf42ac',
+            'mch_id' => '1518352971',
+            'key'    => '33576aa35761f1e867268ab3b5d91096',   // API!操作
+
+            'cert_path'          => getcwd().'/cert/apiclient_cert.pem', // XXX: 绝对路径！！！！
+            'key_path'           => getcwd().'/cert/apiclient_key.pem',
+            'notify_url'         => '',     // 你也可以在下单时单独设置来想覆盖它
+        ];
+//        return $config;
             $app = Factory::payment($config);
-            $openid =$data['openid'];
+//            $openid =$data['openid'];
             $total_money = intval($data['price']);
-//        $total_money = 0.1;
+            $total_money = 0.1;
             $attributes = [
                 'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
                 'body'             => '众筹捐款'.'-'.$data['title'],
                 'out_trade_no'     => time() . rand(1000, 9999),
                 'total_fee'        =>$total_money*100, // 单位：分
                 'notify_url'       => 'https://'.$_SERVER['HTTP_HOST'].'/api/Order/order_notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
-                'openid'           => $openid, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
+                'openid'           => $data['openid'], // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
             ];
             // $order = new Order($attributes);
             $result = $app->order->unify($attributes);
