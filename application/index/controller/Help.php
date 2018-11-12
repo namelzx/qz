@@ -24,11 +24,11 @@ class Help extends Base
         $validate = new ReleasePostValidate();
         $data = input('param.');
         $real = \app\common\model\User::where('id', $data['user_id'])->find();
-        if ($real['status'] != 1) {
-            return json(['status' => 202, 'msg' => '请前往个人中心进行实名认证']);
-        }
+//        if ($real['status'] != 1) {
+//            return json(['status' => 202, 'msg' => '请前往个人中心进行实名认证']);
+//        }
         if(empty($data['images'])){
-            return json(['status' => 202, 'msg' => '图片不可为空']);
+            return json(['status' => 202, 'msg' => '提交证件不可为空']);
         }
         if ($validate->check($data)) {
 
