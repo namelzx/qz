@@ -104,7 +104,7 @@ class Theraise extends BaseModel
      */
     public static function GetByBanner()
     {
-        $res = self::where('bannerpush', 1)->order('create_time asc')->paginate(100);
+        $res = self::where('bannerpush', 1)->where('status','neq',2)->order('create_time asc')->paginate(100);
         return $res;
     }
 

@@ -23,7 +23,7 @@ class Login extends Base
                 return json(logomsg(0, '', '', '管理员不存在'));
             }
             if ($data['password'] != $hasUser['password']) {
-                return json(logomsg(0, '', '', $data['password']));
+                return json(logomsg(0, '账号密码错误', '账号密码错误', $data['password']));
             }
             return json(logomsg(1, 'admin', url('index/index'), '登录成功'));
         } else {

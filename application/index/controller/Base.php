@@ -33,6 +33,7 @@ class Base extends Controller
             $path = $info->getSaveName();
             $filepath = 'https://qz.10huisp.com/uploads/' . $info->getSaveName();
             $fileName = 'uploads/' . $info->getSaveName();
+
             $this->uploadFile('gtjj', $fileName, $info->getPathname());
             return $path;
         } else {

@@ -47,7 +47,7 @@ class Help extends Base
             }
             $ImagesModel = new Images();
             $ImagesModel->saveAll($images);
-            return json(['status' => 200, 'msg' => '发布成功']);
+            return json(['status' => 200, 'msg' => '发布成功，待后台审核，可在我的发布记录里查询审核进度']);
         } else {
             return json(['status' => 201, 'msg' => $validate->getError()]);
         }

@@ -17,6 +17,7 @@ class ReleasePostValidate extends Validate
         'price' => 'require',
         'tarName' => 'require',
         'janeName' => 'require',
+        'helpName'=>'require'
 
     ];
     protected $message = [
@@ -24,7 +25,6 @@ class ReleasePostValidate extends Validate
         'price.require' => '金额不可为空',
         'tarName.require' => '标题不可为空',
         'janeName.require' => '简介不可为空',
-
         'helpName.require' => '详细说明不可为空',
     ];
 
