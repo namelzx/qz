@@ -12,10 +12,14 @@ namespace app\common\model;
 class Article extends BaseModel
 {
 
+
+
     public static function PostByAdd($data)
     {
+//        备注
         $res = self::create($data);
         return $res;
+
     }
 
     public static function PostByUpdate($data)
